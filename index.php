@@ -1,3 +1,10 @@
+<!-- Database -->
+<?php include "includes/db.php" ?>
+
+<!-- Helpers -->
+<?php include "helpers/console_log_output.php" ?>
+
+
 <!-- Header -->
 <?php include "includes/header.php" ?>
 
