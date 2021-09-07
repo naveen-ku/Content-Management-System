@@ -1,4 +1,4 @@
-<?php include "db_cred.php";
+<?php include "../db_cred.php";
 
 
 // Define a named constant

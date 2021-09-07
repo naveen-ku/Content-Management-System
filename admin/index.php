@@ -1,8 +1,9 @@
-<?php include "includes/header.php" ?>
+<?php include "includes/admin_header.php" ?>
+
 <div id="wrapper">
 
     <!-- Navigation -->
-    <?php include "includes/navigation.php" ?>
+    <?php include "includes/admin_navigation.php" ?>
 
     <div id="page-wrapper">
 
@@ -15,7 +16,11 @@
                         Welcome to Admin Dashboard
                         <small>Author</small>
                     </h1>
-
+                    <?php
+                    if ($connection) {
+                        echo "Hello";
+                    }
+                    ?>
                 </div>
             </div>
             <!-- /.row -->
@@ -26,4 +31,4 @@
     </div>
 
     <!-- /#page-wrapper -->
-    <?php include "includes/footer.php" ?>
+    <?php include "includes/admin_footer.php" ?>
