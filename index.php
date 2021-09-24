@@ -1,5 +1,5 @@
 <!-- Database -->
-<?php include "includes/db.php" ?>
+<?php include "db.php" ?>
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
