@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Author</th>
             <th>Title</th>
+            <th>Author</th>
             <th>Category ID</th>
             <th>Status</th>
             <th>Image</th>
