@@ -1,6 +1,8 @@
 <?php ob_start(); ?>
 <?php include "../db.php" ?>
 <?php include "functions/categories_fn.php"; ?>
+<?php include "functions/query_fn.php"; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
