@@ -14,6 +14,7 @@
     </thead>
     <tbody>
         <?php
+
         $sql = "SELECT * FROM posts";
         $select_posts = mysqli_query($connection, $sql);
 
@@ -40,6 +41,9 @@
             echo " <td>{$post_date}</td>";
             echo " <td><a href='posts.php?delete={$post_id}'>
                                     <span class='glyphicon glyphicon-remove' style='color:red' > Delete</span>
+                                    </a></td>";
+            echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>
+                                    <span class='glyphicon glyphicon-pencil' style='color:orange'> Edit</span>
                                     </a></td>";
 
             echo "</tr>";
