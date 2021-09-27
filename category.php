@@ -22,7 +22,10 @@
                 <small>Secondary Text</small>
             </h1>
             <?php
-            $query = "SELECT * FROM posts";
+            if (isset($_GET['category_id'])) {
+                $cat_id = $_GET['category_id'];
+            }
+            $query = "SELECT * FROM posts WHERE post_category_id = {$cat_id}";
             $sql = mysqli_query($connection, $query);
 
             while ($row = mysqli_fetch_assoc($sql)) {
@@ -32,6 +35,7 @@
                 $post_date = $row['post_date'];
                 $post_image = $row['post_image'];
                 $post_content = substr($row['post_content'], 0, 300);
+
 
 
 
