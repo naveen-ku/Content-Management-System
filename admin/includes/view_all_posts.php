@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Author</th>
             <th>Title</th>
+            <th>Author</th>
             <th>Category ID</th>
             <th>Status</th>
             <th>Image</th>
@@ -14,8 +14,10 @@
     </thead>
     <tbody>
         <?php
+
         $sql = "SELECT * FROM posts";
         $select_posts = mysqli_query($connection, $sql);
+        confirmQuery($select_posts);
 
         while ($row = mysqli_fetch_assoc($select_posts)) {
             $post_id = $row['post_id'];
@@ -28,19 +30,48 @@
             $post_comment_count = $row['post_comment_count'];
             $post_date = $row['post_date'];
 
+
+
             echo "<tr>";
             echo " <td>{$post_id}</td>";
             echo " <td>{$post_title}</td>";
             echo " <td>{$post_author}</td>";
-            echo " <td>{$post_category_id}</td>";
+
+            $sql = "SELECT * FROM categories WHERE cat_id = {$post_category_id}";
+            $select_catagory_title = mysqli_query($connection, $sql);
+            confirmQuery($select_catagory_title);
+
+            while ($row = mysqli_fetch_assoc($select_catagory_title)) {
+                $post_category_title = $row['cat_title'];
+                echo " <td>{$post_category_title}</td>";
+            }
+
             echo " <td>{$post_status}</td>";
             echo " <td><img src='../images/{$post_image}' class='img-responsive' width='100px' alt='post_img'> </td>";
             echo " <td>{$post_tags}</td>";
             echo " <td>{$post_comment_count}</td>";
             echo " <td>{$post_date}</td>";
+            echo " <td><a href='posts.php?delete={$post_id}'>
+                                    <span class='glyphicon glyphicon-remove' style='color:red' > Delete</span>
+                                    </a></td>";
+            echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>
+                                    <span class='glyphicon glyphicon-pencil' style='color:orange'> Edit</span>
+                                    </a></td>";
+
             echo "</tr>";
         }
         ?>
 
     </tbody>
 </table>
+
+<?php
+if (isset($_GET['delete'])) {
+    $delete_post_id = $_GET['delete'];
+    $query = "DELETE FROM posts WHERE post_id = {$delete_post_id} ";
+    $delete_query = mysqli_query($connection, $query);
+
+    confirmQuery($delete_query);
+}
+
+?>
