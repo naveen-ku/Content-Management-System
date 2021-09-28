@@ -30,8 +30,6 @@
             $post_comment_count = $row['post_comment_count'];
             $post_date = $row['post_date'];
 
-
-
             echo "<tr>";
             echo " <td>{$post_id}</td>";
             echo " <td>{$post_title}</td>";
@@ -72,6 +70,8 @@ if (isset($_GET['delete'])) {
     $delete_query = mysqli_query($connection, $query);
 
     confirmQuery($delete_query);
+
+    header("Location: posts.php");
 }
 
 ?>
