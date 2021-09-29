@@ -1,5 +1,5 @@
 <!-- Database -->
-<?php include "includes/db.php" ?>
+<?php include "db.php" ?>
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
@@ -39,6 +39,7 @@
             }
 
             while ($row = mysqli_fetch_assoc($sql)) {
+                $post_id = $row['post_id'];
                 $post_title = $row['post_title'];
                 $post_author = $row['post_author'];
                 $post_date = $row['post_date'];
@@ -47,7 +48,7 @@
             ?>
                 <!-- Blogs Fetch from DB -->
                 <h2>
-                    <a href="#"><?php echo $post_title ?></a>
+                    <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
                     by <a href="index.php"><?php echo $post_author ?></a>

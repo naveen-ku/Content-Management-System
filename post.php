@@ -75,7 +75,7 @@
                 $update_comment_count_query = mysqli_query($connection, $sql2);
                 confirmQuery($update_comment_count_query);
 
-                // header("Location: post.php");
+                header("Location: post.php");
             }
             ?>
 

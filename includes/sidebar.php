@@ -3,6 +3,9 @@
     <!-- Blog Search Well -->
     <?php include "search_form.php" ?>
 
+    <!-- Login Form -->
+    <?php include "login_form.php" ?>
+
     <!-- Blog Categories Well -->
     <div class="well">
         <?php
