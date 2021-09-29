@@ -1,5 +1,6 @@
 <?php
 
+
 function insertCategoriesFn()
 {
     global $connection;
@@ -21,6 +22,7 @@ function insertCategoriesFn()
                 die("Query failed" . mysqli_error($connection));
             }
             header("Location: categories.php");
+            exit;
         }
     }
 }
@@ -58,5 +60,6 @@ function deleteCategoryFn()
         $sql = "DELETE FROM categories WHERE cat_id = {$get_cat_id} ";
         $delete_categoriy_query = mysqli_query($connection, $sql);
         header("Location: categories.php");
+        exit;
     }
 }

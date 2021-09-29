@@ -1,7 +1,18 @@
 <?php ob_start(); ?>
+<?php session_start(); ?>
+
 <?php include "../db.php" ?>
 <?php include "functions/categories_fn.php"; ?>
 <?php include "functions/query_fn.php"; ?>
+
+<?php
+
+if (!isset($_SESSION['user_role'])) {
+    header("Location: ../index.php");
+}
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
