@@ -35,7 +35,7 @@ if (isset($_POST['create_post'])) {
 
     <div class="form-group">
         <label for="post_category">Post Category</label><br />
-        <select name="post_category">
+        <select name="post_category" class="form-control">
             <?php
             $query = "SELECT * FROM categories";
             $select_categories = mysqli_query($connection, $query);
