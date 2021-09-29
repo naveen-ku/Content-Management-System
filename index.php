@@ -22,37 +22,42 @@
                 <small>Secondary Text</small>
             </h1>
             <?php
-            $query = "SELECT * FROM posts";
-            $sql = mysqli_query($connection, $query);
+            $sql = "SELECT * FROM posts WHERE post_status = 'published' ";
+            $sql .= "ORDER BY post_id DESC ";
 
-            while ($row = mysqli_fetch_assoc($sql)) {
-                $post_id = $row['post_id'];
-                $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
-                $post_date = $row['post_date'];
-                $post_image = $row['post_image'];
-                $post_content = substr($row['post_content'], 0, 300);
+            $query = mysqli_query($connection, $sql);
+            if (mysqli_num_rows($query) > 0) {
+                while ($row = mysqli_fetch_assoc($query)) {
+                    $post_id = $row['post_id'];
+                    $post_title = $row['post_title'];
+                    $post_author = $row['post_author'];
+                    $post_date = $row['post_date'];
+                    $post_image = $row['post_image'];
+                    $post_content = substr($row['post_content'], 0, 300);
 
 
 
             ?>
-                <!-- Blogs Fetch from DB -->
-                <h2>
-                    <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
-                <hr>
-                <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="Error in path">
-                <hr>
-                <p><?php echo $post_content ?></p>
-                <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id ?>">Read More <span class=" glyphicon glyphicon-chevron-right"></span></a>
+                    <!-- Blogs Fetch from DB -->
+                    <h2>
+                        <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
+                    </h2>
+                    <p class="lead">
+                        by <a href="index.php"><?php echo $post_author ?></a>
+                    </p>
+                    <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
+                    <hr>
+                    <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="Error in path">
+                    <hr>
+                    <p><?php echo $post_content ?></p>
+                    <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id ?>">Read More <span class=" glyphicon glyphicon-chevron-right"></span></a>
 
-                <hr>
+                    <hr>
 
             <?php }
+            } else {
+                echo "<h1 class='text-center'>No Post found</h1>";
+            }
             ?>
 
 
