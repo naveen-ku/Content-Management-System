@@ -75,7 +75,7 @@ if (isset($_POST['update_post'])) {
 
     <div class="form-group">
         <label for="post_category">Post Category </label><br />
-        <select name="post_category">
+        <select name="post_category" class="form-control">
             <?php
             $query = "SELECT * FROM categories";
             $select_categories = mysqli_query($connection, $query);
@@ -115,7 +115,7 @@ if (isset($_POST['update_post'])) {
 
     <div class="form-group">
         <label for="post_content">Post Content</label>
-        <textarea class="form-control" name="post_content" id="" cols="30" rows="10">
+        <textarea class="form-control" name="post_content" id="ckeditor_editor">
             <?php echo $post_content; ?>
         </textarea>
     </div>
