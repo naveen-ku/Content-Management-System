@@ -106,7 +106,7 @@ if (isset($_POST['checkBoxArray'])) {
                 echo " <td>{$post_tags}</td>";
                 echo " <td>{$post_comment_count}</td>";
                 echo " <td>{$post_date}</td>";
-                echo " <td><a href='posts.php?delete={$post_id}'>
+                echo " <td><a onclick=\"javascript: return confirm('Are you sure you want to delete it ?') \" href='posts.php?delete={$post_id}'>
                                     <span class='glyphicon glyphicon-remove' style='color:red' > Delete</span>
                                     </a></td>";
                 echo "<td><a href='posts.php?source=edit_post&p_id={$post_id}'>
