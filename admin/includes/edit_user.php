@@ -15,6 +15,7 @@ while ($row = mysqli_fetch_assoc($edit_user_query)) {
     $user_role = $row['user_role'];
     $user_image = $row['user_image'];
     $user_email = $row['user_email'];
+    $user_password = $row['user_password'];
 }
 
 

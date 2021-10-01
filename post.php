@@ -1,5 +1,6 @@
 <!-- Database -->
 <?php include "db.php" ?>
+<?php session_start(); ?>
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
@@ -65,17 +66,21 @@
                 $comment_status = "unapproved";
                 $comment_post_id = $_GET['p_id'];
 
-                $sql = "INSERT INTO comments(comment_author, comment_email, comment_content, comment_status, comment_post_id, comment_date ) ";
-                $sql .= "VALUES('{$comment_author}', '{$comment_email}', '{$comment_content}', '{$comment_status}', {$comment_post_id}, now() )";
-                $create_comment_query = mysqli_query($connection, $sql);
-                confirmQuery($create_comment_query);
+                if (!empty($comment_author) && !empty($comment_email) && !empty($comment_content)) {
+                    $sql = "INSERT INTO comments(comment_author, comment_email, comment_content, comment_status, comment_post_id, comment_date ) ";
+                    $sql .= "VALUES('{$comment_author}', '{$comment_email}', '{$comment_content}', '{$comment_status}', {$comment_post_id}, now() )";
+                    $create_comment_query = mysqli_query($connection, $sql);
+                    confirmQuery($create_comment_query);
 
-                $sql2 = "UPDATE posts SET post_comment_count=post_comment_count + 1 ";
-                $sql2 .= "WHERE post_id = {$comment_post_id}";
-                $update_comment_count_query = mysqli_query($connection, $sql2);
-                confirmQuery($update_comment_count_query);
+                    $sql2 = "UPDATE posts SET post_comment_count=post_comment_count + 1 ";
+                    $sql2 .= "WHERE post_id = {$comment_post_id}";
+                    $update_comment_count_query = mysqli_query($connection, $sql2);
+                    confirmQuery($update_comment_count_query);
 
-                header("Location: post.php");
+                    header("Location: post.php");
+                } else {
+                    echo "<script>alert('Please fill all of the fields')</script>";
+                }
             }
             ?>
 
