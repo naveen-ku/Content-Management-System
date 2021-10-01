@@ -89,7 +89,7 @@ if (isset($_POST['checkBoxArray'])) {
                 <td><input class="custom_checkBoxes" type="checkbox" name="checkBoxArray[]" value="<?php echo $post_id; ?>"></input></td>
             <?php
                 echo " <td>{$post_id}</td>";
-                echo " <td>{$post_title}</td>";
+                echo " <td><a href='../post.php?p_id=$post_id'>{$post_title}</a></td>";
                 echo " <td>{$post_author}</td>";
 
                 $sql = "SELECT * FROM categories WHERE cat_id = {$post_category_id}";
