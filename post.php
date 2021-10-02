@@ -26,33 +26,41 @@
             <?php
             if (isset($_GET['p_id'])) {
                 $single_post_id = $_GET['p_id'];
-            }
 
-            $sql = "SELECT * FROM posts WHERE post_id = {$single_post_id}";
-            $query = mysqli_query($connection, $sql);
+                $sql = "UPDATE posts SET post_view_count = post_view_count + 1 WHERE post_id = {$single_post_id}";
+                $update_post_view_count = mysqli_query($connection, $sql);
+                confirmQuery($update_post_view_count);
 
-            while ($row = mysqli_fetch_assoc($query)) {
-                $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
-                $post_date = $row['post_date'];
-                $post_image = $row['post_image'];
-                $post_content = $row['post_content'];
+
+                $sql = "SELECT * FROM posts WHERE post_id = {$single_post_id}";
+                $query = mysqli_query($connection, $sql);
+
+                while ($row = mysqli_fetch_assoc($query)) {
+                    $post_id = $row['post_id'];
+                    $post_title = $row['post_title'];
+                    $post_author = $row['post_author'];
+                    $post_date = $row['post_date'];
+                    $post_image = $row['post_image'];
+                    $post_content = $row['post_content'];
             ?>
-                <!-- Blogs Fetch from DB -->
-                <h2>
-                    <a href="#"><?php echo $post_title ?></a>
-                </h2>
-                <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
-                </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
-                <hr>
-                <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="Error in path">
-                <hr>
-                <p><?php echo $post_content ?></p>
-                <hr>
+                    <!-- Blogs Fetch from DB -->
+                    <h2>
+                        <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
+                    </h2>
+                    <p class="lead">
+                        by <a href="author_posts.php?author=<?php echo $post_author ?>&p_id=<?php echo $post_id ?>"><?php echo $post_author ?></a>
+                    </p>
+                    <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
+                    <hr>
+                    <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="Error in path">
+                    <hr>
+                    <p><?php echo $post_content ?></p>
+                    <hr>
 
-            <?php } ?>
+            <?php }
+            } else {
+                header("Location: index.php");
+            } ?>
 
 
             <!-- Blog Comments -->

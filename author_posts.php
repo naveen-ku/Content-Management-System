@@ -4,6 +4,7 @@
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
+<?php include "admin/functions/query_fn.php" ?>
 
 
 <!-- Header -->
@@ -11,7 +12,6 @@
 
 <!-- Navigation -->
 <?php include "includes/navigation.php" ?>
-
 
 <!-- Page Content -->
 <div class="container">
@@ -22,21 +22,22 @@
                 Page Heading
                 <small>Secondary Text</small>
             </h1>
-            <?php
-            $sql = "SELECT * FROM posts WHERE post_status = 'published' ";
-            $sql .= "ORDER BY post_id DESC ";
 
-            $query = mysqli_query($connection, $sql);
-            if (mysqli_num_rows($query) > 0) {
+            <?php
+            if (isset($_GET['author'])) {
+                $posts_author = $_GET['author'];
+
+                $sql = "SELECT * FROM posts WHERE post_author = '{$posts_author}'";
+                $query = mysqli_query($connection, $sql);
+
                 while ($row = mysqli_fetch_assoc($query)) {
                     $post_id = $row['post_id'];
                     $post_title = $row['post_title'];
                     $post_author = $row['post_author'];
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
+                    $post_content = $row['post_content'];
                     $post_content = substr($row['post_content'], 0, 300);
-
-
 
             ?>
                     <!-- Blogs Fetch from DB -->
@@ -56,14 +57,11 @@
                     <hr>
 
             <?php }
-            } else {
-                echo "<h1 class='text-center'>No Post found</h1>";
-            }
-            ?>
+            } ?>
 
 
-            <!-- Pager -->
-            <?php include "includes/pager.php" ?>
+            <!-- Blog Comments -->
+
         </div>
 
         <!-- Blog Sidebar Widgets Column -->
