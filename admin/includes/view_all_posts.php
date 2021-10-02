@@ -25,6 +25,26 @@ if (isset($_POST['checkBoxArray'])) {
                 header("Location:posts.php");
 
                 break;
+
+            case 'clone':
+                $sql = "SELECT * FROM posts WHERE post_id = {$postValueId}";
+                $select_post_query = mysqli_query($connection, $sql);
+
+                while ($row = mysqli_fetch_assoc($select_post_query)) {
+                    $post_title = $row['post_title'];
+                    $post_category_id = $row['post_category_id'];
+                    $post_author = $row['post_author'];
+                    $post_status = $row['post_status'];
+                    $post_image = $row['post_image'];
+                    $post_tags = $row['post_tags'];
+                    $post_content = $row['post_content'];
+                }
+
+                $sql = "INSERT INTO posts (post_category_id,post_title,post_author,post_status,post_image,post_tags,post_content,post_date) ";
+                $sql .= "VALUES ({$post_category_id},'{$post_title}','{$post_author}','{$post_status}','{$post_image}','{$post_tags}','{$post_content}',now())";
+                $clone_post_query = mysqli_query($connection, $sql);
+                confirmQuery($clone_post_query);
+                break;
         }
     }
 }
@@ -39,6 +59,8 @@ if (isset($_POST['checkBoxArray'])) {
                 <option value="published">Publish</option>
                 <option value="draft">Draft</option>
                 <option value="delete">Delete</option>
+                <option value="clone">Clone</option>
+
 
             </select>
         </div>
@@ -69,7 +91,7 @@ if (isset($_POST['checkBoxArray'])) {
         <tbody>
             <?php
 
-            $sql = "SELECT * FROM posts";
+            $sql = "SELECT * FROM posts ORDER BY post_id DESC";
             $select_posts = mysqli_query($connection, $sql);
             confirmQuery($select_posts);
 
