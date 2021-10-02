@@ -23,8 +23,27 @@
                 <small>Secondary Text</small>
             </h1>
             <?php
-            $sql = "SELECT * FROM posts WHERE post_status = 'published' ";
-            $sql .= "ORDER BY post_id DESC ";
+
+            $sql = "SELECT * FROM posts WHERE post_status = 'published'";
+            $count_posts_query = mysqli_query($connection, $sql);
+            $count_posts = mysqli_num_rows($count_posts_query);
+
+            $count_posts = ceil($count_posts / 8);
+
+            if (isset($_GET['page'])) {
+                $page_num = $_GET['page'];
+            } else {
+                $page_num = "";
+            }
+
+            if ($page_num = "" || $page_num = 1) {
+                $page1 = 0;
+            } else {
+                $page1 = ($page_num * 5) - 5;
+            }
+
+            $sql = "SELECT * FROM posts WHERE post_status = 'published'  ";
+            $sql .= "ORDER BY post_id DESC LIMIT $page1 , 5";
 
             $query = mysqli_query($connection, $sql);
             if (mysqli_num_rows($query) > 0) {
@@ -40,6 +59,7 @@
 
             ?>
                     <!-- Blogs Fetch from DB -->
+                    <h1><?php echo $count_posts . " " . $page1 . " " . $page_num ?></h1>
                     <h2>
                         <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
                     </h2>
@@ -64,6 +84,20 @@
 
             <!-- Pager -->
             <?php include "includes/pager.php" ?>
+            <ul class="pager">
+                <?php
+                $page_num = 3;
+                for ($i = 1; $i <= $count_posts; $i++) {
+                    if ($i == $page_num) {
+                        echo "<li><a class='active-link' href='index.php?page={$i}'>{$i}</a></li>";
+                    } else {
+                        echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
+                    }
+                }
+
+                ?>
+
+            </ul>
         </div>
 
         <!-- Blog Sidebar Widgets Column -->
