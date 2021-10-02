@@ -4,6 +4,8 @@
 <?php include "../db.php" ?>
 <?php include "functions/categories_fn.php"; ?>
 <?php include "functions/query_fn.php"; ?>
+<?php include "functions/session_fn.php"; ?>
+
 
 <?php
 
