@@ -14,12 +14,7 @@ if (isset($_POST['submit'])) {
         $user_email = mysqli_real_escape_string($connection, $user_email);
         $user_password = mysqli_real_escape_string($connection, $user_password);
 
-        $sql = "SELECT randSalt FROM users";
-        $select_randSalt_query = mysqli_query($connection, $sql);
-        confirmQuery($select_randSalt_query);
-        $row = mysqli_fetch_array($select_randSalt_query);
-        $randSalt = $row['randSalt'];
-        $user_password = crypt($user_password, $randSalt);
+        $user_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
 
         $sql = "INSERT INTO users (username, user_email, user_password, user_role) ";
         $sql .= "VALUES('{$username}','{$user_email}','{$user_password}','subscriber')";
