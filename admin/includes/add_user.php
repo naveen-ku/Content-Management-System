@@ -9,12 +9,12 @@ if (isset($_POST['create_user'])) {
 
     $user_password = $_POST['user_password'];
     $user_role = $_POST['user_role'];
-    $randSalt = 'random';
+    $user_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
 
 
 
-    $sql = "INSERT INTO users(username, user_firstname,user_lastname,user_email,user_image,user_password,user_role,randSalt) ";
-    $sql .= "VALUES('{$username}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_image}','{$user_password}','{$user_role}','{$randSalt}')";
+    $sql = "INSERT INTO users(username, user_firstname,user_lastname,user_email,user_image,user_password,user_role) ";
+    $sql .= "VALUES('{$username}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_image}','{$user_password}','{$user_role}')";
 
     $create_user_query = mysqli_query($connection, $sql);
     confirmQuery($create_user_query);

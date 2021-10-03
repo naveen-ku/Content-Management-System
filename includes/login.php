@@ -24,10 +24,9 @@ if (isset($_POST['login_user'])) {
         $db_user_role = $row['user_role'];
         $db_randSalt = $row['randSalt'];
     }
-    $user_password = crypt($user_password, $db_randSalt);
 
 
-    if ($username === $db_username && $user_password === $db_user_password) {
+    if (password_verify($user_password, $db_user_password) && $username === $db_username) {
         $_SESSION['user_id'] = $db_user_id;
         $_SESSION['username'] = $db_username;
         $_SESSION['user_firstname'] = $db_user_firstname;
