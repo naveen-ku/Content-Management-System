@@ -1,11 +1,9 @@
 <!-- Database -->
 <?php include "db.php" ?>
-<?php session_start(); ?>
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
 <?php include "admin/functions/query_fn.php" ?>
-
 
 <!-- Header -->
 <?php include "includes/header.php" ?>
@@ -18,19 +16,15 @@
     <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
-
+            <button onclick="history.go(-1);" class="btn btn-default">Back </button>
             <?php
             if (isset($_GET['author'])) {
                 $posts_author = $_GET['author'];
 
                 $sql = "SELECT * FROM posts WHERE post_author = '{$posts_author}'";
-                $query = mysqli_query($connection, $sql);
+                $get_post_author = mysqli_query($connection, $sql);
 
-                while ($row = mysqli_fetch_assoc($query)) {
+                while ($row = mysqli_fetch_assoc($get_post_author)) {
                     $post_id = $row['post_id'];
                     $post_title = $row['post_title'];
                     $post_author = $row['post_author'];
@@ -59,12 +53,9 @@
             <?php }
             } ?>
 
-
-            <!-- Blog Comments -->
-
         </div>
 
-        <!-- Blog Sidebar Widgets Column -->
+        <!-- Blog Sidebar-->
         <?php include "includes/sidebar.php" ?>
     </div>
     <!-- /.row -->
