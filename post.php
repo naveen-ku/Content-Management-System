@@ -5,6 +5,8 @@
 <?php include "helpers/console_log_output.php" ?>
 <?php include "admin/functions/query_fn.php" ?>
 
+<?php include "functions/comments.php" ?>
+
 <!-- Header -->
 <?php include "includes/header.php" ?>
 
@@ -16,13 +18,7 @@
     <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-                <?php print_r($_SESSION) ?>
-
-            </h1>
-
+            <button onclick="history.go(-1);" class="btn btn-default">Back </button>
             <?php
             if (isset($_GET['p_id'])) {
                 $single_post_id = $_GET['p_id'];
@@ -66,50 +62,39 @@
             <!-- Blog Comments -->
 
             <?php
-            if (isset($_POST['create_comment'])) {
-
-                $comment_author = $_POST['comment_author'];
-                $comment_email = $_POST['comment_email'];
-                $comment_content = $_POST['comment_content'];
-                $comment_status = "unapproved";
-                $comment_post_id = $_GET['p_id'];
-
-                if (!empty($comment_author) && !empty($comment_email) && !empty($comment_content)) {
-                    $sql = "INSERT INTO comments(comment_author, comment_email, comment_content, comment_status, comment_post_id, comment_date ) ";
-                    $sql .= "VALUES('{$comment_author}', '{$comment_email}', '{$comment_content}', '{$comment_status}', {$comment_post_id}, now() )";
-                    $create_comment_query = mysqli_query($connection, $sql);
-                    confirmQuery($create_comment_query);
-
-                    $sql2 = "UPDATE posts SET post_comment_count=post_comment_count + 1 ";
-                    $sql2 .= "WHERE post_id = {$comment_post_id}";
-                    $update_comment_count_query = mysqli_query($connection, $sql2);
-                    confirmQuery($update_comment_count_query);
-
-                    header("Location: post.php");
-                } else {
-                    echo "<script>alert('Please fill all of the fields')</script>";
-                }
-            }
+            $message = array();
+            $message = createComment($message);
             ?>
 
             <!-- Comments Form -->
             <div class="well">
                 <h4>Leave a Comment:</h4>
                 <form method="POST" action="">
-
-                    <div class="form-group">
+                    <div class="form-group  <?php echo $message['authorClass'] ?>">
                         <label for="comment_author">Author</label>
                         <input type="text" name="comment_author" class="form-control">
+                        <?php if ($message != null) {
+                            echo "<span> {$message['author']} </span>";
+                        }
+                        ?>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group  <?php echo $message['emailClass'] ?>">
                         <label for="comment_email">Email</label>
                         <input type="text" name="comment_email" class="form-control">
+                        <?php if ($message != null) {
+                            echo "<span> {$message['email']} </span>";
+                        }
+                        ?>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group <?php echo $message['contentClass'] ?>">
                         <label for="comment_email">Content</label>
                         <textarea class="form-control" rows="3" name="comment_content"></textarea>
+                        <?php if ($message != null) {
+                            echo "<span> {$message['content']} </span>";
+                        }
+                        ?>
                     </div>
 
                     <button type="submit" class="btn btn-primary" name="create_comment">Submit</button>

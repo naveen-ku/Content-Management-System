@@ -41,7 +41,7 @@ if (isset($_POST['login_user'])) {
             $_SESSION['user_lastname'] = $db_user_lastname;
             $_SESSION['user_role'] = $db_user_role;
 
-            header("Location: ../admin/index.php");
+            header("Location: admin/index.php");
         }
     }
 }
