@@ -1,11 +1,9 @@
 <!-- Database -->
 <?php include "db.php" ?>
-<?php session_start(); ?>
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
 <?php include "admin/functions/query_fn.php" ?>
-
 
 <!-- Header -->
 <?php include "includes/header.php" ?>
@@ -21,6 +19,8 @@
             <h1 class="page-header">
                 Page Heading
                 <small>Secondary Text</small>
+                <?php print_r($_SESSION) ?>
+
             </h1>
 
             <?php

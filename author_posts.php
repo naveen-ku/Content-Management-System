@@ -1,6 +1,5 @@
 <!-- Database -->
 <?php include "db.php" ?>
-<?php session_start(); ?>
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>

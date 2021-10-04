@@ -22,19 +22,31 @@
                     $cat_title = $row['cat_title'];
                     echo "<li><a href = '#'>{$cat_title}</a></li>";
                 }
-
                 ?>
-                <li><a href="registration.php">Register</a></li>
-
-                <li><a href="admin">Admin</a></li>
-
-
-
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <?php
+                if (!isset($_SESSION['username']) || $_SESSION['username'] == "" || empty($_SESSION['username'])) {
+                ?>
+                    <li class="nav-item ml-auto"><a href="login.php">Login</a></li>
+                    <li class="nav-item ml-auto"><a href="registration.php">Register</a></li>
+                <?php
+                }
+                ?>
+                <?php
+                if (isset($_SESSION['username'])) {
+                ?>
+                    <li><a href="admin">Admin</a></li>
+                <?php
+                }
+                ?>
                 <?php
                 if (isset($_SESSION['user_role'])) {
-                    if (isset($_GET['p_id'])) {
-                        $post_id = $_GET['p_id'];
-                        echo "<li><a href='admin/posts.php?source=edit_post&p_id={$post_id}'>Edit Post</a></li>";
+                    if ($_SESSION['user_role'] == 'admin') {
+                        if (isset($_GET['p_id'])) {
+                            $post_id = $_GET['p_id'];
+                            echo "<li><a href='admin/posts.php?source=edit_post&p_id={$post_id}'>Edit Post</a></li>";
+                        }
                     }
                 }
                 ?>

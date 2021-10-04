@@ -3,6 +3,12 @@
 <?php include "includes/header.php"; ?>
 
 <?php
+if (isset($_SESSION['username'])) {
+    header("Location: index.php");
+}
+?>
+
+<?php
 $message = "";
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
