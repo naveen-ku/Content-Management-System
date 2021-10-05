@@ -3,7 +3,10 @@
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
+<?php include "admin/functions/query_fn.php" ?>
 
+<!-- Functons -->
+<?php include "functions/search.php" ?>
 
 <!-- Header -->
 <?php include "includes/header.php" ?>
@@ -11,30 +14,21 @@
 <!-- Navigation -->
 <?php include "includes/navigation.php" ?>
 
-
 <!-- Page Content -->
 <div class="container">
     <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
+            <button onclick="history.go(-1);" class="btn btn-default">Back </button>
+
             <?php
-
             if (isset($_POST["submit"])) {
+
                 $search = $_POST["search"];
-
-                $query = "SELECT * FROM posts WHERE post_Tags LIKE '%$search%' ";
-                $sql = mysqli_query($connection, $query);
-                if (!$sql) {
-                    die("QUERY FAILED" . mysqli_error($connection));
-                }
-
+                $sql = searchByTags($search);
                 $count = mysqli_num_rows($sql);
                 if ($count == 0) {
-                    echo "<h1>NO RESULT </h1>";
+                    echo "<h1 class='text-center'>NO RESULT </h1>";
                 }
             }
 
@@ -64,9 +58,6 @@
 
             <?php }
             ?>
-
-            <!-- Pager -->
-            <?php include "includes/pager.php" ?>
         </div>
 
         <!-- Blog Sidebar Widgets Column -->
