@@ -5,7 +5,9 @@
 <?php include "helpers/console_log_output.php" ?>
 <?php include "admin/functions/query_fn.php" ?>
 
+<!-- Function -->
 <?php include "functions/comments.php" ?>
+<?php include "functions/posts.php" ?>
 
 <!-- Header -->
 <?php include "includes/header.php" ?>
@@ -21,17 +23,13 @@
             <button onclick="history.go(-1);" class="btn btn-default">Back </button>
             <?php
             if (isset($_GET['p_id'])) {
+
                 $single_post_id = $_GET['p_id'];
 
-                $sql = "UPDATE posts SET post_view_count = post_view_count + 1 WHERE post_id = {$single_post_id}";
-                $update_post_view_count = mysqli_query($connection, $sql);
-                confirmQuery($update_post_view_count);
+                updatePostViewCount($single_post_id);
+                $select_single_post_query = selectSinglePost($single_post_id);
 
-
-                $sql = "SELECT * FROM posts WHERE post_id = {$single_post_id}";
-                $query = mysqli_query($connection, $sql);
-
-                while ($row = mysqli_fetch_assoc($query)) {
+                while ($row = mysqli_fetch_assoc($select_single_post_query)) {
                     $post_id = $row['post_id'];
                     $post_title = $row['post_title'];
                     $post_author = $row['post_author'];
@@ -52,15 +50,12 @@
                     <hr>
                     <p><?php echo $post_content ?></p>
                     <hr>
-
             <?php }
             } else {
                 header("Location: index.php");
             } ?>
 
-
             <!-- Blog Comments -->
-
             <?php
             $message = array();
             $message = createComment($message);
@@ -106,13 +101,9 @@
             <!-- Posted Comments -->
 
             <?php
-            $comment_post_id = $_GET['p_id'];
 
-            $sql = "SELECT * FROM comments WHERE comment_status = 'approved' ";
-            $sql .= "AND comment_post_id={$comment_post_id} ";
-            $sql .= "ORDER BY comment_id DESC ";
-            $fetch_comments_query = mysqli_query($connection, $sql);
-            confirmQuery($fetch_comments_query);
+            $comment_post_id = $_GET['p_id'];
+            $fetch_comments_query = fetchComments($comment_post_id);
 
             while ($row = mysqli_fetch_assoc($fetch_comments_query)) {
                 $comment_author = $row['comment_author'];

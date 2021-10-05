@@ -3,6 +3,10 @@
 
 <!-- Helpers -->
 <?php include "helpers/console_log_output.php" ?>
+<?php include "admin/functions/query_fn.php" ?>
+
+<!-- Functions -->
+<?php include "functions/posts.php" ?>
 
 <!-- Header -->
 <?php include "includes/header.php" ?>
@@ -15,28 +19,20 @@
     <div class="row">
         <!-- Blog Entries Column -->
         <div class="col-md-8">
-            <h1 class="page-header">
-                Page Heading
-                <small>Secondary Text</small>
-            </h1>
             <?php
             if (isset($_GET['category_id'])) {
                 $cat_id = $_GET['category_id'];
             }
-            $query = "SELECT * FROM posts WHERE post_category_id = {$cat_id}";
-            $sql = mysqli_query($connection, $query);
 
-            while ($row = mysqli_fetch_assoc($sql)) {
+            $select_posts_by_category = selectPostsByCategory($cat_id);
+
+            while ($row = mysqli_fetch_assoc($select_posts_by_category)) {
                 $post_id = $row['post_id'];
                 $post_title = $row['post_title'];
                 $post_author = $row['post_author'];
                 $post_date = $row['post_date'];
                 $post_image = $row['post_image'];
                 $post_content = substr($row['post_content'], 0, 300);
-
-
-
-
             ?>
                 <!-- Blogs Fetch from DB -->
                 <h2>
@@ -57,9 +53,6 @@
             <?php }
             ?>
 
-
-            <!-- Pager -->
-            <?php include "includes/pager.php" ?>
         </div>
 
         <!-- Blog Sidebar Widgets Column -->

@@ -1,4 +1,17 @@
 <?php
+
+function fetchComments($comment_post_id)
+{
+
+    global $connection;
+    $sql = "SELECT * FROM comments WHERE comment_status = 'approved' ";
+    $sql .= "AND comment_post_id={$comment_post_id} ";
+    $sql .= "ORDER BY comment_id DESC ";
+    $fetch_comments_query = mysqli_query($connection, $sql);
+    confirmQuery($fetch_comments_query);
+    return $fetch_comments_query;
+}
+
 function createComment($message)
 {
     global $connection;

@@ -5,6 +5,9 @@
 <?php include "helpers/console_log_output.php" ?>
 <?php include "admin/functions/query_fn.php" ?>
 
+<!-- Functions -->
+<?php include "functions/posts.php" ?>
+
 <!-- Header -->
 <?php include "includes/header.php" ?>
 
@@ -21,8 +24,7 @@
             if (isset($_GET['author'])) {
                 $posts_author = $_GET['author'];
 
-                $sql = "SELECT * FROM posts WHERE post_author = '{$posts_author}'";
-                $get_post_author = mysqli_query($connection, $sql);
+                $get_post_author = selectPostsByAuthor($posts_author);
 
                 while ($row = mysqli_fetch_assoc($get_post_author)) {
                     $post_id = $row['post_id'];
