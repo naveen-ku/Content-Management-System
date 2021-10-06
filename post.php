@@ -24,7 +24,7 @@
             <?php
             if (isset($_GET['p_id'])) {
 
-                $single_post_id = $_GET['p_id'];
+                $single_post_id = mysqli_real_escape_string($connection, $_GET['p_id']);
 
                 updatePostViewCount($single_post_id);
                 $select_single_post_query = selectSinglePost($single_post_id);
@@ -62,69 +62,11 @@
             ?>
 
             <!-- Comments Form -->
-            <div class="well">
-                <h4>Leave a Comment:</h4>
-                <form method="POST" action="">
-                    <div class="form-group  <?php echo $message['authorClass'] ?>">
-                        <label for="comment_author">Author</label>
-                        <input type="text" name="comment_author" class="form-control">
-                        <?php if ($message != null) {
-                            echo "<span> {$message['author']} </span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="form-group  <?php echo $message['emailClass'] ?>">
-                        <label for="comment_email">Email</label>
-                        <input type="text" name="comment_email" class="form-control">
-                        <?php if ($message != null) {
-                            echo "<span> {$message['email']} </span>";
-                        }
-                        ?>
-                    </div>
-
-                    <div class="form-group <?php echo $message['contentClass'] ?>">
-                        <label for="comment_email">Content</label>
-                        <textarea class="form-control" rows="3" name="comment_content"></textarea>
-                        <?php if ($message != null) {
-                            echo "<span> {$message['content']} </span>";
-                        }
-                        ?>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" name="create_comment">Submit</button>
-                </form>
-            </div>
-
-            <hr>
+            <?php include "includes/comment_form.php" ?>
 
             <!-- Posted Comments -->
+            <?php include "includes/posted_comments.php" ?>
 
-            <?php
-
-            $comment_post_id = $_GET['p_id'];
-            $fetch_comments_query = fetchComments($comment_post_id);
-
-            while ($row = mysqli_fetch_assoc($fetch_comments_query)) {
-                $comment_author = $row['comment_author'];
-                $comment_date = $row['comment_date'];
-                $comment_content = $row['comment_content'];
-            ?>
-                <div class='media'>
-                    <a class='pull-left' href='#'>
-                        <img class='media-object' src='http://placehold.it/64x64' alt=''>
-                    </a>
-                    <div class='media-body'>
-                        <h4 class='media-heading'><?php echo $comment_author ?>
-                            <small><?php echo $comment_date ?></small>
-                        </h4>
-                        <?php echo $comment_content ?>
-                    </div>
-                </div>
-
-            <?php } ?>
-
-            <!-- Comment -->
 
         </div>
 

@@ -23,15 +23,11 @@ function createComment($message)
     $message['contentClass'] = "";
 
     if (isset($_POST['create_comment'])) {
-        $comment_author = $_POST['comment_author'];
-        $comment_email = $_POST['comment_email'];
-        $comment_content = $_POST['comment_content'];
+        $comment_author = mysqli_real_escape_string($connection, $_POST['comment_author']);
+        $comment_email = mysqli_real_escape_string($connection, $_POST['comment_email']);
+        $comment_content = mysqli_real_escape_string($connection, $_POST['comment_content']);
         $comment_status = "unapproved";
-        $comment_post_id = $_GET['p_id'];
-
-        $comment_author = mysqli_real_escape_string($connection, $comment_author);
-        $comment_email = mysqli_real_escape_string($connection, $comment_email);
-        $comment_content = mysqli_real_escape_string($connection, $comment_content);
+        $comment_post_id = mysqli_real_escape_string($connection, $_GET['p_id']);
 
         if (empty($comment_author)) {
             $message['authorClass'] = "alert alert-danger";

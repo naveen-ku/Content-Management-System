@@ -68,40 +68,43 @@
 
 <?php
 if (isset($_GET['delete'])) {
-    $delete_comment_id = $_GET['delete'];
-    $comment_post_id = $_GET['p_id'];
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
 
-    $sql = "DELETE FROM comments WHERE comment_id = {$delete_comment_id} ";
-    $delete_query = mysqli_query($connection, $sql);
-    confirmQuery($delete_query);
+            $delete_comment_id = mysqli_real_escape_string($connection, $_GET['delete']);
+            $comment_post_id = mysqli_real_escape_string($connection, $_GET['p_id']);
 
-    $sql2 = "UPDATE posts SET post_comment_count=post_comment_count - 1 ";
-    $sql2 .= "WHERE post_id = {$comment_post_id}";
-    $update_post_comment_query = mysqli_query($connection, $sql2);
-    confirmQuery($update_post_comment_query);
+            $sql = "DELETE FROM comments WHERE comment_id = {$delete_comment_id} ";
+            $delete_query = mysqli_query($connection, $sql);
+            confirmQuery($delete_query);
 
-    header("Location: comments.php");
+            $sql2 = "UPDATE posts SET post_comment_count=post_comment_count - 1 ";
+            $sql2 .= "WHERE post_id = {$comment_post_id}";
+            $update_post_comment_query = mysqli_query($connection, $sql2);
+            confirmQuery($update_post_comment_query);
+
+            header("Location: comments.php");
+        }
+    }
 }
 
 if (isset($_GET['approve'])) {
-    $approve_comment_id = $_GET['approve'];
-    $status = "approved";
 
+    $approve_comment_id = mysqli_real_escape_string($connection, $_GET['approve']);
+    $status = "approved";
     $sql = "UPDATE comments SET comment_status='{$status}' WHERE comment_id= {$approve_comment_id}";
     $approve_comment_query = mysqli_query($connection, $sql);
     confirmQuery($approve_comment_query);
-
     header("Location: comments.php");
 }
 
 if (isset($_GET['unapprove'])) {
-    $unapprove_comment_id = $_GET['unapprove'];
-    $status = "unapproved";
 
+    $unapprove_comment_id = mysqli_real_escape_string($connection, $_GET['unapprove']);
+    $status = "unapproved";
     $sql = "UPDATE comments SET comment_status='{$status}' WHERE comment_id = {$unapprove_comment_id}";
     $unapprove_comment_query = mysqli_query($connection, $sql);
     confirmQuery($unapprove_comment_query);
-
     header("Location: comments.php");
 }
 

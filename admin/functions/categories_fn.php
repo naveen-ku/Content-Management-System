@@ -9,7 +9,7 @@ function insertCategoriesFn()
     $error_msg = "";
     $error_class = "";
     if (isset($_POST['submit'])) {
-        $cat_title = $_POST['cat_title'];
+        $cat_title = mysqli_real_escape_string($connection, $_POST['cat_title']);
 
         if ($cat_title == "" || empty($cat_title)) {
             $error_class = " alert alert-danger";
@@ -56,10 +56,13 @@ function deleteCategoryFn()
     global $connection;
 
     if (isset($_GET['delete'])) {
-        $get_cat_id = $_GET['delete'];
-        $sql = "DELETE FROM categories WHERE cat_id = {$get_cat_id} ";
-        $delete_categoriy_query = mysqli_query($connection, $sql);
-        header("Location: categories.php");
-        exit;
+        if (isset($_SESSION['user_role'])) {
+            if ($_SESSION['user_role'] == 'admin') {
+                $get_cat_id = $_GET['delete'];
+                $sql = "DELETE FROM categories WHERE cat_id = {$get_cat_id} ";
+                $delete_categoriy_query = mysqli_query($connection, $sql);
+                header("Location: categories.php");
+            }
+        }
     }
 }

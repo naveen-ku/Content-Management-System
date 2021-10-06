@@ -22,7 +22,7 @@
             <button onclick="history.go(-1);" class="btn btn-default">Back </button>
             <?php
             if (isset($_GET['author'])) {
-                $posts_author = $_GET['author'];
+                $posts_author = mysqli_real_escape_string($connection, $_GET['author']);
 
                 $get_post_author = selectPostsByAuthor($posts_author);
 

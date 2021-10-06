@@ -7,9 +7,6 @@ $message['success'] = "";
 
 
 if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $user_email = $_POST['user_email'];
-    $user_password = $_POST['user_password'];
 
     $username = mysqli_real_escape_string($connection, $username);
     $user_email = mysqli_real_escape_string($connection, $user_email);

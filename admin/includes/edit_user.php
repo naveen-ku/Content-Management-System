@@ -20,13 +20,13 @@ while ($row = mysqli_fetch_assoc($edit_user_query)) {
 
 
 if (isset($_POST['update_user'])) {
-    $edit_user_id = $_GET['user_id'];
-    $username = $_POST['username'];
-    $user_role = $_POST['user_role'];
-    $user_firstname = $_POST['user_firstname'];
-    $user_lastname = $_POST['user_lastname'];
-    $user_email = $_POST['user_email'];
-    $user_password = $_POST['user_password'];
+    $edit_user_id = mysqli_real_escape_string($connection, $_GET['user_id']);
+    $username = mysqli_real_escape_string($connection, $_POST['username']);
+    $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
+    $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+    $user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+    $user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
+    $user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
 
     if (!empty($user_password)) {
         $sql = "SELECT user_password FROM users WHERE user_id=$edit_user_id";

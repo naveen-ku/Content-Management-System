@@ -7,6 +7,7 @@
 
 <!-- Functions -->
 <?php include "functions/posts.php" ?>
+<?php include "functions/pager.php" ?>
 
 <!-- Header -->
 <?php include "includes/header.php" ?>
@@ -25,7 +26,7 @@
             $count_published_posts = countPublishedPosts();
 
             if (isset($_GET['page'])) {
-                $page_num = $_GET['page'];
+                $page_num = mysqli_real_escape_string($connection, $_GET['page']);
             } else {
                 $page_num = "";
             }
@@ -72,15 +73,10 @@
             }
             ?>
 
+            <!-- Pager -->
             <ul class="pager">
                 <?php
-                for ($i = 1; $i <= $count_published_posts; $i++) {
-                    if ($i == $page_num) {
-                        echo "<li><a class='active-link' href='index.php?page={$i}'>{$i}</a></li>";
-                    } else {
-                        echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
-                    }
-                }
+                pagerTiles($count_published_posts, $page_num);
                 ?>
             </ul>
 

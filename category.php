@@ -21,7 +21,7 @@
         <div class="col-md-8">
             <?php
             if (isset($_GET['category_id'])) {
-                $cat_id = $_GET['category_id'];
+                $cat_id = mysqli_real_escape_string($connection, $_GET['category_id']);
             }
 
             $select_posts_by_category = selectPostsByCategory($cat_id);

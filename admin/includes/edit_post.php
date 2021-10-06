@@ -23,18 +23,17 @@ while ($row = mysqli_fetch_assoc($edit_post_query)) {
 
 
 if (isset($_POST['update_post'])) {
-    $post_title = $_POST['post_title'];
-    $post_category_id = $_POST['post_category'];
-    $post_author = $_POST['post_author'];
-    $post_status = $_POST['post_status'];
+    $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);
+    $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category']);
+    $post_author = mysqli_real_escape_string($connection, $_POST['post_author']);
+    $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
 
-    $post_image = $_FILES['post_image']['name'];
-    $post_image_temp = $_FILES['post_image']['tmp_name'];
+    $post_image = mysqli_real_escape_string($connection, $_FILES['post_image']['name']);
+    $post_image_temp = mysqli_real_escape_string($connection, $_FILES['post_image']['tmp_name']);
 
-    $post_tags = $_POST['post_tags'];
-    $post_content = $_POST['post_content'];
+    $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
+    $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
     $post_date = date('d-m-y');
-    $post_comment_count = 4;
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
 
