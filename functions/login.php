@@ -4,6 +4,8 @@ $message['username'] = "";
 $message['password'] = "";
 $message['msg'] = "";
 if (isset($_POST['login_user'])) {
+    $username = $_POST['username'];
+    $user_password = $_POST['user_password'];
 
     $username = mysqli_real_escape_string($connection, $username);
     $user_password = mysqli_real_escape_string($connection, $user_password);

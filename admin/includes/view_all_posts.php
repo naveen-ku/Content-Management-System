@@ -1,4 +1,9 @@
 <?php
+if (isset($_SESSION['user_role'])) {
+    if ($_SESSION['user_role'] != 'admin') {
+        header("Location: index.php");
+    }
+}
 
 if (isset($_POST['checkBoxArray'])) {
     foreach ($_POST['checkBoxArray'] as $postValueId) {

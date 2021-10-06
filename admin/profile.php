@@ -60,8 +60,7 @@ if (isset($_POST['update_user_profile'])) {
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Welcome to Admin Dashboard
-                        <small>Author</small>
+                        Edit Profile
                     </h1>
 
                     <form action="" method="POST" enctype="multipart/form-data">

@@ -1,3 +1,11 @@
+<?php
+if (isset($_SESSION['user_role'])) {
+    if ($_SESSION['user_role'] != 'admin') {
+        header("Location: index.php");
+    }
+}
+?>
+
 <table class="table table-hover table-bordered">
     <thead>
         <tr>

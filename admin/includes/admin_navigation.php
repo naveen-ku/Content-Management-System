@@ -20,7 +20,7 @@
                                                                                                     echo $_SESSION['user_lastname'] ?><b class="caret"></b></a>
              <ul class="dropdown-menu">
                  <li>
-                     <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                     <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
                  </li>
                  <li class="divider"></li>
                  <li>
@@ -38,9 +38,15 @@
              <li>
                  <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                  <ul id="posts_dropdown" class="collapse">
-                     <li>
-                         <a href="posts.php">View All Posts</a>
-                     </li>
+                     <?php
+                        if ($_SESSION['user_role'] == 'admin') {
+                        ?>
+                         <li>
+                             <a href="posts.php">View All Posts</a>
+                         </li>
+                     <?php
+                        }
+                        ?>
                      <li>
                          <a href="posts.php?source=add_post">Add Posts</a>
                      </li>
@@ -50,20 +56,32 @@
              <li>
                  <a href="./categories.php"><i class="fa fa-fw fa-wrench"></i> Categories</a>
              </li>
-             <li>
-                 <a href="./comments.php"><i class="fa fa-fw fa-wrench"></i> Comments</a>
-             </li>
-             <li>
-                 <a href="javascript:;" data-toggle="collapse" data-target="#users_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
-                 <ul id="users_dropdown" class="collapse">
-                     <li>
-                         <a href="users.php">View All Users</a>
-                     </li>
-                     <li>
-                         <a href="users.php?source=add_user">Add Users</a>
-                     </li>
-                 </ul>
-             </li>
+             <?php
+                if ($_SESSION['user_role'] == 'admin') {
+                ?>
+                 <li>
+                     <a href="./comments.php"><i class="fa fa-fw fa-wrench"></i> Comments</a>
+                 </li>
+             <?php
+                }
+                ?>
+             <?php
+                if ($_SESSION['user_role'] == 'admin') {
+                ?>
+                 <li>
+                     <a href="javascript:;" data-toggle="collapse" data-target="#users_dropdown"><i class="fa fa-fw fa-arrows-v"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
+                     <ul id="users_dropdown" class="collapse">
+                         <li>
+                             <a href="users.php">View All Users</a>
+                         </li>
+                         <li>
+                             <a href="users.php?source=add_user">Add Users</a>
+                         </li>
+                     </ul>
+                 </li>
+             <?php
+                }
+                ?>
              <li>
                  <a href="profile.php"><i class="fa fa-fw fa-dashboard"></i>Profile</a>
              </li>

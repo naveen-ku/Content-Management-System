@@ -11,12 +11,11 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Welcome to Admin Dashboard
-                        <small>Author</small>
+                        View All Registered Users
                     </h1>
                     <?php
                     if (isset($_GET['source'])) {
-                        $source = $_GET['source'];
+                        $source = mysqli_real_escape_string($connection, $_GET['source']);
                     } else {
                         $source = "";
                     }
