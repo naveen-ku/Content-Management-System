@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_GET['p_id'])) {
     $edit_post_id = $_GET['p_id'];
 }
@@ -20,7 +19,6 @@ while ($row = mysqli_fetch_assoc($edit_post_query)) {
     $post_comment_count = $row['post_comment_count'];
     $post_date = $row['post_date'];
 }
-
 
 if (isset($_POST['update_post'])) {
     $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);

@@ -3,7 +3,12 @@ if (isset($_POST['create_post'])) {
     $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);
     $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category']);
     $post_author = mysqli_real_escape_string($connection, $_POST['post_author']);
-    $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
+
+    if ($_SESSION['user_role'] == 'admin') {
+        $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
+    } else {
+        $post_status = 'draft';
+    }
 
     $post_image = mysqli_real_escape_string($connection, $_FILES['post_image']['name']);
     $post_image_temp = mysqli_real_escape_string($connection, $_FILES['post_image']['tmp_name']);
@@ -57,14 +62,20 @@ if (isset($_POST['create_post'])) {
         <input type="text" class="form-control" name="post_author">
     </div>
 
-    <div class="form-group">
-        <label for="post_status">Post Status</label>
-        <select name="post_status" id="" class="form-control" required>
-            <option value="" disabled selected>Select post status</option>
-            <option value="draft">Draft</option>
-            <option value="published">Published</option>
-        </select>
-    </div>
+    <?php
+    if ($_SESSION['user_role'] == 'admin') {
+    ?>
+        <div class="form-group">
+            <label for="post_status">Post Status</label>
+            <select name="post_status" id="" class="form-control" required>
+                <option value="" disabled selected>Select post status</option>
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+            </select>
+        </div>
+    <?php
+    }
+    ?>
 
     <div class="form-group">
         <label for="post_image">Post Image</label>

@@ -1,24 +1,30 @@
 <?php
+if ($_SESSION['user_role'] != 'admin') {
+    header("Location:index.php");
+}
+?>
+
+<?php
 if (isset($_POST['create_user'])) {
-    $username = mysqli_real_escape_string($connection, $_POST['username']);
-    $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
-    $user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
-    $user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
+    if ($_SESSION['user_role'] == 'admin') {
+        $username = mysqli_real_escape_string($connection, $_POST['username']);
+        $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+        $user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+        $user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
 
-    $user_image = 'some random path';
+        $user_image = 'some random path';
 
-    $user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
-    $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
-    $user_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
+        $user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
+        $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
+        $user_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
 
+        $sql = "INSERT INTO users(username, user_firstname,user_lastname,user_email,user_image,user_password,user_role) ";
+        $sql .= "VALUES('{$username}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_image}','{$user_password}','{$user_role}')";
 
-
-    $sql = "INSERT INTO users(username, user_firstname,user_lastname,user_email,user_image,user_password,user_role) ";
-    $sql .= "VALUES('{$username}','{$user_firstname}','{$user_lastname}','{$user_email}','{$user_image}','{$user_password}','{$user_role}')";
-
-    $create_user_query = mysqli_query($connection, $sql);
-    confirmQuery($create_user_query);
-    header("Location: users.php");
+        $create_user_query = mysqli_query($connection, $sql);
+        confirmQuery($create_user_query);
+        header("Location: users.php");
+    }
 }
 
 ?>

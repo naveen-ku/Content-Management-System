@@ -63,23 +63,31 @@ if (isset($_SESSION['user_role'])) {
 
 <?php
 if (isset($_GET['admin'])) {
-    $user_id = mysqli_real_escape_string($connection, $_GET['admin']);
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
+            $user_id = mysqli_real_escape_string($connection, $_GET['admin']);
 
-    $sql = "UPDATE users SET user_role='admin' WHERE user_id = {$user_id} ";
-    $change_role_to_admin_query = mysqli_query($connection, $sql);
-    confirmQuery($change_role_to_admin_query);
+            $sql = "UPDATE users SET user_role='admin' WHERE user_id = {$user_id} ";
+            $change_role_to_admin_query = mysqli_query($connection, $sql);
+            confirmQuery($change_role_to_admin_query);
 
-    header("Location: users.php");
+            header("Location: users.php");
+        }
+    }
 }
 
 if (isset($_GET['subscriber'])) {
-    $user_id = mysqli_real_escape_string($connection, $_GET['subscriber']);
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
+            $user_id = mysqli_real_escape_string($connection, $_GET['subscriber']);
 
-    $sql = "UPDATE users SET user_role='subscriber' WHERE user_id = {$user_id} ";
-    $change_role_to_subscriber_query = mysqli_query($connection, $sql);
-    confirmQuery($change_role_to_subscriber_query);
+            $sql = "UPDATE users SET user_role='subscriber' WHERE user_id = {$user_id} ";
+            $change_role_to_subscriber_query = mysqli_query($connection, $sql);
+            confirmQuery($change_role_to_subscriber_query);
 
-    header("Location: users.php");
+            header("Location: users.php");
+        }
+    }
 }
 
 if (isset($_GET['delete'])) {
