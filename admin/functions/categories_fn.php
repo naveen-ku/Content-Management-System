@@ -9,7 +9,7 @@ function insertCategoriesFn()
     $error_msg = "";
     $error_class = "";
     if (isset($_POST['submit'])) {
-        $cat_title = $_POST['cat_title'];
+        $cat_title = mysqli_real_escape_string($connection, $_POST['cat_title']);
 
         if ($cat_title == "" || empty($cat_title)) {
             $error_class = " alert alert-danger";
@@ -22,7 +22,6 @@ function insertCategoriesFn()
                 die("Query failed" . mysqli_error($connection));
             }
             header("Location: categories.php");
-            exit;
         }
     }
 }
@@ -40,13 +39,17 @@ function findAllCategoriesFn()
         echo "<tr>";
         echo "<td>{$cat_id}</td>";
         echo "<td>{$cat_title}</td>";
-        echo "<td><a href='categories.php?delete={$cat_id}'>
+        if (isset($_SESSION['user_role'])) {
+            if ($_SESSION['user_role'] == 'admin') {
+                echo "<td><a href='categories.php?delete={$cat_id}'>
                                     <span class='glyphicon glyphicon-remove' style='color:red' > Delete</span>
                                     </a></td>";
-        echo "<td><a href='categories.php?edit={$cat_id}'>
+                echo "<td><a href='categories.php?edit={$cat_id}'>
                                     <span class='glyphicon glyphicon-pencil' style='color:orange'> Edit</span>
                                     </a></td>";
-        echo "</td>";
+                echo "</td>";
+            }
+        }
     }
 }
 
@@ -56,10 +59,15 @@ function deleteCategoryFn()
     global $connection;
 
     if (isset($_GET['delete'])) {
-        $get_cat_id = $_GET['delete'];
-        $sql = "DELETE FROM categories WHERE cat_id = {$get_cat_id} ";
-        $delete_categoriy_query = mysqli_query($connection, $sql);
-        header("Location: categories.php");
-        exit;
+        if (isset($_SESSION['user_role'])) {
+            if ($_SESSION['user_role'] == 'admin') {
+                $get_cat_id = $_GET['delete'];
+                $sql = "DELETE FROM categories WHERE cat_id = {$get_cat_id} ";
+                $delete_categoriy_query = mysqli_query($connection, $sql);
+                header("Location: categories.php");
+            } else {
+                header("Location: index.php");
+            }
+        }
     }
 }

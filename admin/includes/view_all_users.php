@@ -1,3 +1,11 @@
+<?php
+if (isset($_SESSION['user_role'])) {
+    if ($_SESSION['user_role'] != 'admin') {
+        header("Location: index.php");
+    }
+}
+?>
+
 <table class="table table-hover table-bordered">
     <thead>
         <tr>
@@ -55,33 +63,44 @@
 
 <?php
 if (isset($_GET['admin'])) {
-    $user_id = $_GET['admin'];
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
+            $user_id = mysqli_real_escape_string($connection, $_GET['admin']);
 
-    $sql = "UPDATE users SET user_role='admin' WHERE user_id = {$user_id} ";
-    $change_role_to_admin_query = mysqli_query($connection, $sql);
-    confirmQuery($change_role_to_admin_query);
+            $sql = "UPDATE users SET user_role='admin' WHERE user_id = {$user_id} ";
+            $change_role_to_admin_query = mysqli_query($connection, $sql);
+            confirmQuery($change_role_to_admin_query);
 
-    header("Location: users.php");
+            header("Location: users.php");
+        }
+    }
 }
 
 if (isset($_GET['subscriber'])) {
-    $user_id = $_GET['subscriber'];
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
+            $user_id = mysqli_real_escape_string($connection, $_GET['subscriber']);
 
-    $sql = "UPDATE users SET user_role='subscriber' WHERE user_id = {$user_id} ";
-    $change_role_to_subscriber_query = mysqli_query($connection, $sql);
-    confirmQuery($change_role_to_subscriber_query);
+            $sql = "UPDATE users SET user_role='subscriber' WHERE user_id = {$user_id} ";
+            $change_role_to_subscriber_query = mysqli_query($connection, $sql);
+            confirmQuery($change_role_to_subscriber_query);
 
-    header("Location: users.php");
+            header("Location: users.php");
+        }
+    }
 }
 
 if (isset($_GET['delete'])) {
-    $delete_user_id = $_GET['delete'];
 
-    $query = "DELETE FROM users WHERE user_id = {$delete_user_id} ";
-    $delete_query = mysqli_query($connection, $query);
-    confirmQuery($delete_query);
-
-    header("Location: users.php");
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
+            $delete_user_id = mysqli_real_escape_string($connection, $_GET['delete']);
+            $query = "DELETE FROM users WHERE user_id = {$delete_user_id} ";
+            $delete_query = mysqli_query($connection, $query);
+            confirmQuery($delete_query);
+            header("Location: users.php");
+        }
+    }
 }
 
 ?>

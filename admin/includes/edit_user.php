@@ -1,4 +1,10 @@
 <?php
+if ($_SESSION['user_role'] != 'admin') {
+    header("Location:index.php");
+}
+?>
+
+<?php
 
 if (isset($_GET['user_id'])) {
     $edit_user_id = $_GET['user_id'];
@@ -20,37 +26,39 @@ while ($row = mysqli_fetch_assoc($edit_user_query)) {
 
 
 if (isset($_POST['update_user'])) {
-    $edit_user_id = $_GET['user_id'];
-    $username = $_POST['username'];
-    $user_role = $_POST['user_role'];
-    $user_firstname = $_POST['user_firstname'];
-    $user_lastname = $_POST['user_lastname'];
-    $user_email = $_POST['user_email'];
-    $user_password = $_POST['user_password'];
+    if ($_SESSION['user_role'] == 'admin') {
+        $edit_user_id = mysqli_real_escape_string($connection, $_GET['user_id']);
+        $username = mysqli_real_escape_string($connection, $_POST['username']);
+        $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
+        $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+        $user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+        $user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
+        $user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
 
-    if (!empty($user_password)) {
-        $sql = "SELECT user_password FROM users WHERE user_id=$edit_user_id";
-        $get_user_password_query = mysqli_query($connection, $query);
-        confirmQuery($get_user_password_query);
+        if (!empty($user_password)) {
+            $sql = "SELECT user_password FROM users WHERE user_id=$edit_user_id";
+            $get_user_password_query = mysqli_query($connection, $query);
+            confirmQuery($get_user_password_query);
 
-        $row = mysqli_fetch_array($get_user_password_query);
-        $db_user_password = $row['user_password'];
+            $row = mysqli_fetch_array($get_user_password_query);
+            $db_user_password = $row['user_password'];
 
-        if ($db_user_password != $user_password) {
-            $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
+            if ($db_user_password != $user_password) {
+                $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
+            }
+            $query = "UPDATE users SET ";
+            $query .= "username = '{$username}', ";
+            $query .= "user_role = '{$user_role}', ";
+            $query .= "user_firstname = '{$user_firstname}', ";
+            $query .= "user_lastname = '{$user_lastname}', ";
+            $query .= "user_email = '{$user_email}', ";
+            $query .= "user_password = '{$hashed_password}' ";
+            $query .= "WHERE user_id = {$edit_user_id}";
+
+            $update_user_query = mysqli_query($connection, $query);
+            confirmQuery($update_user_query);
+            header("Location: users.php");
         }
-        $query = "UPDATE users SET ";
-        $query .= "username = '{$username}', ";
-        $query .= "user_role = '{$user_role}', ";
-        $query .= "user_firstname = '{$user_firstname}', ";
-        $query .= "user_lastname = '{$user_lastname}', ";
-        $query .= "user_email = '{$user_email}', ";
-        $query .= "user_password = '{$hashed_password}' ";
-        $query .= "WHERE user_id = {$edit_user_id}";
-
-        $update_user_query = mysqli_query($connection, $query);
-        confirmQuery($update_user_query);
-        header("Location: users.php");
     }
 }
 

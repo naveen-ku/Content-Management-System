@@ -24,7 +24,7 @@
             <?php
             if (isset($_POST["submit"])) {
 
-                $search = $_POST["search"];
+                $search = mysqli_real_escape_string($connection, $_POST["search"]);
                 $sql = searchByTags($search);
                 $count = mysqli_num_rows($sql);
                 if ($count == 0) {

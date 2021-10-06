@@ -1,8 +1,13 @@
 <?php
+if (isset($_SESSION['user_role'])) {
+    if ($_SESSION['user_role'] != 'admin') {
+        header("Location: index.php");
+    }
+}
 
 if (isset($_POST['checkBoxArray'])) {
     foreach ($_POST['checkBoxArray'] as $postValueId) {
-        $bulk_options = $_POST['bulk_options'];
+        $bulk_options = mysqli_real_escape_string($connection, $_POST['bulk_options']);
 
         switch ($bulk_options) {
             case 'published':
@@ -145,13 +150,15 @@ if (isset($_POST['checkBoxArray'])) {
 
 <?php
 if (isset($_GET['delete'])) {
-    $delete_post_id = $_GET['delete'];
-    $query = "DELETE FROM posts WHERE post_id = {$delete_post_id} ";
-    $delete_query = mysqli_query($connection, $query);
-
-    confirmQuery($delete_query);
-
-    header("Location: posts.php");
+    if (isset($_SESSION['user_role'])) {
+        if ($_SESSION['user_role'] == 'admin') {
+            $delete_post_id = mysqli_real_escape_string($connection, $_GET['delete']);
+            $query = "DELETE FROM posts WHERE post_id = {$delete_post_id} ";
+            $delete_query = mysqli_query($connection, $query);
+            confirmQuery($delete_query);
+            header("Location: posts.php");
+        }
+    }
 }
 
 ?>

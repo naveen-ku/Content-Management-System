@@ -18,7 +18,7 @@ if (isset($_SESSION['username'])) {
 ?>
 
 <!-- Login Functionality -->
-<?php include "includes/login.php" ?>
+<?php include "functions/login.php" ?>
 
 <!-- Page Content -->
 <div class="container">

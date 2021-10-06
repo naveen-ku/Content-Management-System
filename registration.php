@@ -18,7 +18,7 @@ if (isset($_SESSION['username'])) {
 ?>
 
 <!-- Registration Functionality -->
-<?php include "includes/registration.php" ?>
+<?php include "functions/registration.php" ?>
 
 <!-- Page Content -->
 <div class="container">
