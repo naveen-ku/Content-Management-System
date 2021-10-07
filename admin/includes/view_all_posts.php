@@ -82,12 +82,13 @@ if (isset($_POST['checkBoxArray'])) {
                 <th>ID</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Category ID</th>
+                <th>Category</th>
                 <th>Status</th>
                 <th>Image</th>
                 <th>Tags</th>
                 <th>Comments</th>
                 <th>Date</th>
+                <th>Post View Count</th>
                 <th>Delete</th>
                 <th>Edit</th>
 
@@ -110,6 +111,7 @@ if (isset($_POST['checkBoxArray'])) {
                 $post_tags = $row['post_tags'];
                 $post_comment_count = $row['post_comment_count'];
                 $post_date = $row['post_date'];
+                $post_view_count = $row['post_view_count'];
 
                 echo "<tr>";
             ?>
@@ -131,8 +133,20 @@ if (isset($_POST['checkBoxArray'])) {
                 echo " <td>{$post_status}</td>";
                 echo " <td><img src='../images/{$post_image}' class='img-responsive' width='100px' alt='post_img'> </td>";
                 echo " <td>{$post_tags}</td>";
-                echo " <td>{$post_comment_count}</td>";
+
+                $sql = "SELECT * FROM comments WHERE comment_post_id = $post_id";
+                $count_post_comment_query = mysqli_query($connection, $sql);
+                confirmQuery($count_post_comment_query);
+
+                $count_post_comment = mysqli_num_rows($count_post_comment_query);
+                $comments_details = mysqli_fetch_array($count_post_comment_query);
+                $comment_id = $comments_details['comment_id'];
+
+                echo " <td><a href='includes/view_single_post_comments.php?source=view_single_post_comments&p_id=$post_id'>{$count_post_comment}</a></td>";
+
                 echo " <td>{$post_date}</td>";
+                echo "<td>{$post_view_count}</td>";
+
                 echo " <td><a onclick=\"javascript: return confirm('Are you sure you want to delete it ?') \" href='posts.php?delete={$post_id}'>
                                     <span class='glyphicon glyphicon-remove' style='color:red' > Delete</span>
                                     </a></td>";

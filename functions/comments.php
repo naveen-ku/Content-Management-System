@@ -48,11 +48,6 @@ function createComment($message)
             $create_comment_query = mysqli_query($connection, $sql);
             confirmQuery($create_comment_query);
 
-            $sql2 = "UPDATE posts SET post_comment_count=post_comment_count + 1 ";
-            $sql2 .= "WHERE post_id = {$comment_post_id}";
-            $update_comment_count_query = mysqli_query($connection, $sql2);
-            confirmQuery($update_comment_count_query);
-
             header("Location: post.php?p_id={$_GET['p_id']}");
         }
 
