@@ -139,10 +139,9 @@ if (isset($_POST['checkBoxArray'])) {
                 confirmQuery($count_post_comment_query);
 
                 $count_post_comment = mysqli_num_rows($count_post_comment_query);
-                $comments_details = mysqli_fetch_array($count_post_comment_query);
-                $comment_id = $comments_details['comment_id'];
 
-                echo " <td><a href='includes/view_single_post_comments.php?source=view_single_post_comments&p_id=$post_id'>{$count_post_comment}</a></td>";
+
+                echo " <td><a href='view_single_post_comments.php?p_id=$post_id'>{$count_post_comment}</a></td>";
 
                 echo " <td>{$post_date}</td>";
                 echo "<td>{$post_view_count}</td>";
