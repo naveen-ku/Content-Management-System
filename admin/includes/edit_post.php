@@ -89,8 +89,25 @@ if (isset($_POST['update_post'])) {
     </div>
 
     <div class="form-group">
-        <label for="post_author">Post Author</label>
-        <input type="text" class="form-control" name="post_author" value="<?php echo $post_author; ?>">
+        <label for="post_author">Post Author</label><br />
+        <select name="post_author" class="form-control" required>
+            <option value=<?php echo $post_author; ?>default selected><?php echo $post_author; ?></option>
+
+            <?php
+            if ($_SESSION['user_role'] == 'admin') {
+                $query = "SELECT * FROM users";
+                $select_users = mysqli_query($connection, $query);
+
+                confirmQuery($select_users);
+
+                while ($row = mysqli_fetch_assoc($select_users)) {
+                    $select_user_id = $row['user_id'];
+                    $select_username = $row['username'];
+                    echo "<option value='{$select_username}'>{$select_username}</option>";
+                }
+            }
+            ?>
+        </select>
     </div>
 
     <div class="form-group">
