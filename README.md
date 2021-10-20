@@ -26,7 +26,7 @@ This is a full stack web application that helps users create, manage, and modify
   git clone git@github.com:naveen-ku/cms.git
   ```
 
-- Open the **`cms`** in any project editor to start working.
+- Open the **`cms`** or **`localhost/Content-Management-System`** in any project editor to start working.
 
 ### Setting up database
 
@@ -50,7 +50,7 @@ This is a full stack web application that helps users create, manage, and modify
 ### Start the project on browser
 
 - Start xampp control panel and start **`Apache`** and **`Mysql`** server.
-- Go to browser and enter url **`localhost/cms`**
+- Go to browser and enter url **`localhost/cms`** or **`localhost/Content-Management-System`**
 
 ## Snapshots
 
