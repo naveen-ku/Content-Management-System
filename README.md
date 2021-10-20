@@ -26,7 +26,7 @@ This is a full stack web application that helps users create, manage, and modify
   git clone git@github.com:naveen-ku/cms.git
   ```
 
-- Open the **`cms`** or **`localhost/Content-Management-System`** in any project editor to start working.
+- Open the **`cms`** or **`Content-Management-System`** in any project editor to start working.
 
 ### Setting up database
 
