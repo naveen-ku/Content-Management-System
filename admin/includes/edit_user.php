@@ -58,6 +58,18 @@ if (isset($_POST['update_user'])) {
             $update_user_query = mysqli_query($connection, $query);
             confirmQuery($update_user_query);
             header("Location: users.php");
+        } else {
+            $query = "UPDATE users SET ";
+            $query .= "username = '{$username}', ";
+            $query .= "user_role = '{$user_role}', ";
+            $query .= "user_firstname = '{$user_firstname}', ";
+            $query .= "user_lastname = '{$user_lastname}', ";
+            $query .= "user_email = '{$user_email}' ";
+            $query .= "WHERE user_id = {$edit_user_id}";
+
+            $update_user_query = mysqli_query($connection, $query);
+            confirmQuery($update_user_query);
+            header("Location: users.php");
         }
     }
 }
@@ -106,7 +118,7 @@ if (isset($_POST['update_user'])) {
 
     <div class="form-group">
         <label for="user_password">User Password</label>
-        <input type="password" class="form-control" name="user_password" value="<?php echo $user_password; ?>">
+        <input type="password" class="form-control" name="user_password">
     </div>
 
 

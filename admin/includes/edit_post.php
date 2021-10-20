@@ -26,8 +26,8 @@ if (isset($_POST['update_post'])) {
     $post_author = mysqli_real_escape_string($connection, $_POST['post_author']);
     $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
 
-    $post_image = mysqli_real_escape_string($connection, $_FILES['post_image']['name']);
-    $post_image_temp = mysqli_real_escape_string($connection, $_FILES['post_image']['tmp_name']);
+    $post_image = $_FILES['post_image']['name'];
+    $post_image_temp = $_FILES['post_image']['tmp_name'];
 
     $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
     $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
@@ -73,12 +73,12 @@ if (isset($_POST['update_post'])) {
     <div class="form-group">
         <label for="post_category">Post Category </label><br />
         <select name="post_category" class="form-control">
+
             <?php
             $query = "SELECT * FROM categories";
             $select_categories = mysqli_query($connection, $query);
 
             confirmQuery($select_categories);
-
             while ($row = mysqli_fetch_assoc($select_categories)) {
                 $select_cat_id = $row['cat_id'];
                 $select_cat_title = $row['cat_title'];
@@ -91,7 +91,7 @@ if (isset($_POST['update_post'])) {
     <div class="form-group">
         <label for="post_author">Post Author</label><br />
         <select name="post_author" class="form-control" required>
-            <option value=<?php echo $post_author; ?>default selected><?php echo $post_author; ?></option>
+            <option value=<?php echo $post_author; ?> selected><?php echo $post_author; ?></option>
 
             <?php
             if ($_SESSION['user_role'] == 'admin') {

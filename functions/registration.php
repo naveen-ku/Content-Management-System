@@ -5,6 +5,19 @@ $message['email'] = "";
 $message['password'] = "";
 $message['success'] = "";
 
+function usernameExists($username)
+{
+    global $connection;
+    $sql = "SELECT username FROM users WHERE username = '$username' ";
+    $select_usernames_query = mysqli_query($connection, $sql);
+    confirmQuery($select_usernames_query);
+    if (mysqli_num_rows($select_usernames_query) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
@@ -14,6 +27,11 @@ if (isset($_POST['submit'])) {
     $username = mysqli_real_escape_string($connection, $username);
     $user_email = mysqli_real_escape_string($connection, $user_email);
     $user_password = mysqli_real_escape_string($connection, $user_password);
+
+    if (usernameExists($username)) {
+        $message['username'] = "Username already exists";
+        $classNameUsername = "alert alert-danger";
+    }
 
     if (empty($username)) {
         $message['username'] = "Username cannot be empty";
@@ -29,7 +47,7 @@ if (isset($_POST['submit'])) {
     }
 
 
-    if (!empty($username) && !empty($user_email) && !empty($user_password)) {
+    if (!empty($username) && !empty($user_email) && !empty($user_password) && !usernameExists($username)) {
         $user_password = password_hash($user_password, PASSWORD_BCRYPT, array("cost" => 10));
 
         $sql = "INSERT INTO users (username, user_email, user_password, user_role) ";
