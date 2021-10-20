@@ -10,8 +10,8 @@ if (isset($_POST['create_post'])) {
         $post_status = 'draft';
     }
 
-    $post_image = mysqli_real_escape_string($connection, $_FILES['post_image']['name']);
-    $post_image_temp = mysqli_real_escape_string($connection, $_FILES['post_image']['tmp_name']);
+    $post_image = $_FILES['post_image']['name'];
+    $post_image_temp = $_FILES['post_image']['tmp_name'];
 
     $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
     $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
@@ -35,7 +35,7 @@ if (isset($_POST['create_post'])) {
 
     <div class="form-group">
         <label for="post_title">Post Title</label>
-        <input type="text" class="form-control" name="post_title">
+        <input type="text" class="form-control" name="post_title" required>
     </div>
 
     <div class="form-group">
@@ -58,9 +58,28 @@ if (isset($_POST['create_post'])) {
     </div>
 
     <div class="form-group">
-        <label for="post_author">Post Author</label>
-        <input type="text" class="form-control" name="post_author">
+        <label for="post_author">Post Author</label><br />
+        <select name="post_author" class="form-control" required>
+            <option value=<?php echo $_SESSION['username'] ?> selected><?php echo $_SESSION['username'] ?></option>
+
+            <?php
+            if ($_SESSION['user_role'] == 'admin') {
+                $query = "SELECT * FROM users";
+                $select_users = mysqli_query($connection, $query);
+
+                confirmQuery($select_users);
+
+                while ($row = mysqli_fetch_assoc($select_users)) {
+                    $select_user_id = $row['user_id'];
+                    $select_username = $row['username'];
+                    echo "<option value='{$select_username}'>{$select_username}</option>";
+                }
+            }
+            ?>
+        </select>
     </div>
+
+
 
     <?php
     if ($_SESSION['user_role'] == 'admin') {
